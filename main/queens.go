@@ -10,7 +10,7 @@ func placeQueen(queenNum, row, col int, board [][]int) bool {
 		return true
 	}
 
-	if queenNum < 8 && row >=8 && col >= 8 {
+	if queenNum < 8 && row >=7 && col >= 7 {
 		return false
 	}
 
@@ -20,11 +20,11 @@ func placeQueen(queenNum, row, col int, board [][]int) bool {
 		for j := 0; j<8; j++ {
 
 			if allowedCell(i, j, board) {
-
+				fmt.Printf("Cell %d %d is allowed: \n", i, j)
 				board[i][j] = 1
-				queenNum = queenNum + 1
-
-				if result = placeQueen(queenNum, i, j, board);result == false {
+				queenNum++
+				if result = placeQueen(queenNum, i, j, board); result == false {
+					fmt.Printf(" Deassigning %d %d \n",i,j)
 					board[i][j] = 0
 					queenNum = queenNum - 1
 				}
@@ -49,16 +49,16 @@ func allowedCell(row, col int, board [][]int) bool {
 		}
 	}
 
-	i, j := row+1, col+1
+	u, w := row+1, col+1
 	SouthEast:
-	for ;; i++ {
-		for ;; j++ {
-			if i<8 && j<8 {
-				if board[i][j]==1 {
+	for ;; {
+		for ;; {
+			if u<8 && w<8 {
+				if board[u][w]==1 {
 					return false
 				}
-				i++
-				j++
+				u++
+				w++
 			} else {
 				break SouthEast
 			}
@@ -67,12 +67,12 @@ func allowedCell(row, col int, board [][]int) bool {
 	}
 
 	h, k := row-1, col-1
-	// walk diagonal North-West
 	NorthWest:
 	for ;; {
 		for ;; {
 			if h>=0 && k>=0 {
 				if board[h][k]==1 {
+					fmt.Printf("Cell [%d %d] should not be allowed due to [%d %d] \n", row, col, h, k)
 					return false
 				}
 				h--
@@ -85,7 +85,6 @@ func allowedCell(row, col int, board [][]int) bool {
 
 
 	l, m := row-1, col+1
-	// walk diagonal North-East
 	NorthEast:
 	for ;; {
 		for ;; {
@@ -129,9 +128,6 @@ func main(){
 	}
 
 	placeQueen(0, 0, 0, board)
-
-	fmt.Println("Solution:")
-
 	printSolution(board)
 
 }
