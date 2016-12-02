@@ -15,13 +15,10 @@ func CheckDirect(tofind, text string) bool {
 			toFindIndex := 0
 			textIndex := occurrenceIndex
 			matchedChars := 0
-
-			for j := 0; j < commonLength; j++ {
+			for ; matchedChars < commonLength; matchedChars++ {
 
 				// compare & match - character by character
-				if tofind[toFindIndex] == text[textIndex] {
-					matchedChars++
-				} else {
+				if tofind[toFindIndex] != text[textIndex] { 
 					break
 				}
 
